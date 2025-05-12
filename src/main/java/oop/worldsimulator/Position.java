@@ -54,9 +54,9 @@ public class Position implements Comparable<Position> {
     @Override
     public int compareTo(Position other) {
         if (this.y == other.y) {
-            return Integer.compare(this.x, other.x);
+            return Integer.compare(this.x, other.x);    // If y is the same, smaller x is smaller position
         }
-        return Integer.compare(this.y, other.y);
+        return Integer.compare(this.y, other.y);    // Smaller y is smaller position
     }
 
     @Override
