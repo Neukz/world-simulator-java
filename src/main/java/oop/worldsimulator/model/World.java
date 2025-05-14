@@ -14,6 +14,7 @@ public class World {
 
     private final int width, height;
     private final List<Organism> organisms = new ArrayList<>();
+    private final List<Organism> toAdd = new ArrayList<>();
     private final Random random = new Random();
 
 
@@ -34,14 +35,12 @@ public class World {
         return new ArrayList<>(organisms);  // Defensive copy
     }
 
-    public void addOrganism(Organism organism) {
-        organisms.add(organism);
+    public void queueOrganism(Organism organism) {
+        toAdd.add(organism);
     }
 
     public void populate(Organism... organisms) {
-        for (Organism o : organisms) {
-            addOrganism(o);
-        }
+        Collections.addAll(this.organisms, organisms);
     }
 
     public void nextTurn() {
@@ -69,8 +68,10 @@ public class World {
             }
         }
 
-        // Remove dead organisms
+        // Remove dead organisms and add newly spawned
         organisms.removeIf(o -> !o.isAlive());
+        organisms.addAll(toAdd);
+        toAdd.clear();
     }
 
     public Organism getCollidingOrganism(Organism organism) {
@@ -79,6 +80,14 @@ public class World {
                 return other;
             }
         }
+
+        // Consider newly spawned organisms as well
+        for (Organism other : toAdd) {
+            if (other.getPosition().equals(organism.getPosition())) {
+                return other;
+            }
+        }
+
         return null;
     }
 
@@ -88,6 +97,14 @@ public class World {
                 return o;
             }
         }
+
+        // Consider newly spawned organisms as well
+        for (Organism o : toAdd) {
+            if (o.getPosition().equals(position)) {
+                return o;
+            }
+        }
+
         return null;
     }
 
@@ -103,6 +120,24 @@ public class World {
         }
 
         return pos;
+    }
+
+    public Position getRandomFreeNeighboringField(Organism organism) {
+        Position position = organism.getPosition();
+        List<Position> neighbors = position.getNeighbors(1);
+
+        while (!neighbors.isEmpty()) {
+            int i = random.nextInt(neighbors.size());
+            Position randomNeighbor = neighbors.get(i);
+
+            if (positionWithinBounds(randomNeighbor) && getOrganismAt(randomNeighbor) == null) {
+                return randomNeighbor;
+            }
+
+            neighbors.remove(i);
+        }
+
+        return Position.INVALID_POSITION;   // All neighboring fields are occupied
     }
 
     public boolean positionWithinBounds(Position position) {

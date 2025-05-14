@@ -2,6 +2,7 @@ package oop.worldsimulator.model.organisms;
 
 import oop.worldsimulator.model.Position;
 import oop.worldsimulator.model.World;
+import oop.worldsimulator.model.factory.OrganismFactory;
 
 public abstract class Organism implements Comparable<Organism> {
     private int age = 0;
@@ -79,9 +80,17 @@ public abstract class Organism implements Comparable<Organism> {
     }
 
     protected void reproduce() {
-        // TODO
+        Position childPos = world.getRandomFreeNeighboringField(this);
+        if (childPos.equals(Position.INVALID_POSITION)) {
+            return; // No space to reproduce
+        }
+
+        String species = getSpecies();
+        Organism child = OrganismFactory.getInstance().create(species, childPos.getX(), childPos.getY(), world);
+        world.queueOrganism(child);
     }
 
+    public abstract String getSpecies();
     public abstract void action();
     public abstract void collision(Organism other);
 }
