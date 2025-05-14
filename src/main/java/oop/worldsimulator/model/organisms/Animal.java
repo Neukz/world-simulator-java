@@ -12,7 +12,7 @@ public abstract class Animal extends Organism {
     public void action() {
         Position pos = getPosition();
         do {
-            Position randomNeighbor = pos.getRandomNeighbor(1);
+            Position randomNeighbor = pos.getRandomNeighbor();
             setPosition(randomNeighbor);
         } while (pos == getPosition());	// Repeat until a valid new position is set
         setPrevPosition(pos);

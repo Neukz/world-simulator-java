@@ -35,6 +35,10 @@ public class Position implements Comparable<Position> {
         this.y = y;
     }
 
+    public List<Position> getNeighbors() {
+        return getNeighbors(1);
+    }
+
     public List<Position> getNeighbors(int range) {
         List<Position> neighbors = new ArrayList<>();
 
@@ -44,6 +48,10 @@ public class Position implements Comparable<Position> {
         neighbors.add(new Position(x + range, y));
 
         return neighbors;
+    }
+
+    public Position getRandomNeighbor() {
+        return getRandomNeighbor(1);
     }
 
     public Position getRandomNeighbor(int range) {

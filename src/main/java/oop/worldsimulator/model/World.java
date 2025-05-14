@@ -124,7 +124,7 @@ public class World {
 
     public Position getRandomFreeNeighboringField(Organism organism) {
         Position position = organism.getPosition();
-        List<Position> neighbors = position.getNeighbors(1);
+        List<Position> neighbors = position.getNeighbors();
 
         while (!neighbors.isEmpty()) {
             int i = random.nextInt(neighbors.size());
