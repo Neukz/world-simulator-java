@@ -9,7 +9,7 @@ public class Wolf extends Animal {
     private static final int INITIATIVE = 5;
     private static final String SYMBOL = "🐺";
     private static final String SPECIES = "Wolf";
-    private static final boolean registered = register();
+    private static final boolean REGISTERED = register();
 
 
     public Wolf(int x, int y, World world) {

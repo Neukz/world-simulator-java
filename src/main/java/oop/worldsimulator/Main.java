@@ -11,7 +11,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/oop/worldsimulator/view/world.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 550);
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("World Simulator | Kacper Neumann, 203394");
         stage.setScene(scene);
         stage.show();
