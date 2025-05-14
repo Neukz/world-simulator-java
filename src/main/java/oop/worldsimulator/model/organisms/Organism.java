@@ -1,14 +1,9 @@
-package oop.worldsimulator.organisms;
+package oop.worldsimulator.model.organisms;
 
-import oop.worldsimulator.Position;
-import oop.worldsimulator.World;
-
-import java.util.Comparator;
+import oop.worldsimulator.model.Position;
+import oop.worldsimulator.model.World;
 
 public abstract class Organism implements Comparable<Organism> {
-    public static final Comparator<Organism> COMPARE_BY_POSITION = Comparator.comparing(o -> o.position);
-
-
     private int age = 0;
     private boolean alive = true;
     private int strength;
@@ -83,10 +78,10 @@ public abstract class Organism implements Comparable<Organism> {
         return Integer.compare(other.initiative, this.initiative);  // Higher initiative is higher priority
     }
 
-    public abstract void action();
-    public abstract void collision(Organism other);
-
     protected void reproduce() {
         // TODO
     }
+
+    public abstract void action();
+    public abstract void collision(Organism other);
 }

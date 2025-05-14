@@ -1,8 +1,7 @@
-package oop.worldsimulator.organisms.animals;
+package oop.worldsimulator.model.organisms;
 
-import oop.worldsimulator.Position;
-import oop.worldsimulator.World;
-import oop.worldsimulator.organisms.Organism;
+import oop.worldsimulator.model.Position;
+import oop.worldsimulator.model.World;
 
 public abstract class Animal extends Organism {
     public Animal(int strength, int initiative, String symbol, int x, int y, World world) {

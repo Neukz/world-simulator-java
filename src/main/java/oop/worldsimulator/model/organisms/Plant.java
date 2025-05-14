@@ -1,7 +1,6 @@
-package oop.worldsimulator.organisms.plants;
+package oop.worldsimulator.model.organisms;
 
-import oop.worldsimulator.World;
-import oop.worldsimulator.organisms.Organism;
+import oop.worldsimulator.model.World;
 
 import java.util.Random;
 

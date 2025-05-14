@@ -1,6 +1,6 @@
-package oop.worldsimulator;
+package oop.worldsimulator.model;
 
-import oop.worldsimulator.organisms.Organism;
+import oop.worldsimulator.model.organisms.Organism;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,8 +38,8 @@ public class World {
     }
 
     public void populate(Organism... organisms) {
-        for (Organism organism : organisms) {
-            addOrganism(organism);
+        for (Organism o : organisms) {
+            addOrganism(o);
         }
     }
 
@@ -65,9 +65,9 @@ public class World {
     }
 
     public Organism getOrganismAt(Position position) {
-        for (Organism organism : organisms) {
-            if (organism.isAlive() && organism.getPosition().equals(position)) {
-                return organism;
+        for (Organism o : organisms) {
+            if (o.isAlive() && o.getPosition().equals(position)) {
+                return o;
             }
         }
         return null;

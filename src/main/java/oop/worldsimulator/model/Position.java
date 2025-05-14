@@ -1,4 +1,4 @@
-package oop.worldsimulator;
+package oop.worldsimulator.model;
 
 import java.util.ArrayList;
 import java.util.List;

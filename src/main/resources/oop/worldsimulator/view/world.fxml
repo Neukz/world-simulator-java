@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="oop.worldsimulator.controller.WorldController">
+    <GridPane fx:id="worldGrid" />
+    <Button fx:id="nextTurnButton" text="Next Turn" onAction="#onNextTurnClick" />
+</VBox>
