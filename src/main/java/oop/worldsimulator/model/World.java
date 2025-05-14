@@ -1,5 +1,6 @@
 package oop.worldsimulator.model;
 
+import oop.worldsimulator.model.organisms.Animal;
 import oop.worldsimulator.model.organisms.Organism;
 
 import java.util.ArrayList;
@@ -43,16 +44,33 @@ public class World {
         }
     }
 
-    public void makeTurn() {
-        for (Organism organism : organisms) {
-            organism.mature();
+    public void nextTurn() {
+        for (Organism o : organisms) {
+            o.mature();
         }
 
+        // Sort by initiative and age (natural order)
         Collections.sort(organisms);
 
         for (Organism organism : organisms) {
+            // Skip dead organisms
+            if (!organism.isAlive()) {
+                continue;
+            }
+
             organism.action();
+
+            // If it's an Animal, check for collision
+            if (organism instanceof Animal) {
+                Organism other = getCollidingOrganism(organism);
+                if (other != null) {
+                    other.collision(organism);
+                }
+            }
         }
+
+        // Remove dead organisms
+        organisms.removeIf(o -> !o.isAlive());
     }
 
     public Organism getCollidingOrganism(Organism organism) {

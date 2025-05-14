@@ -41,16 +41,16 @@ public class WorldController {
 
     @FXML
     private void onNextTurnClick() {
-        world.makeTurn();
+        world.nextTurn();
         drawWorld();
     }
 
     private void drawWorld() {
+        worldGrid.getChildren().clear();
+
         // Sort organisms by position
         List<Organism> organisms = world.getOrganisms();
         organisms.sort(Comparator.comparing(Organism::getPosition));
-
-        worldGrid.getChildren().clear();
 
         Iterator<Organism> iterator = organisms.iterator();
         Organism current = iterator.hasNext() ? iterator.next() : null;
