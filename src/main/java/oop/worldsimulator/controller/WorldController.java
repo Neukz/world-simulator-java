@@ -39,6 +39,8 @@ public class WorldController {
                 new Wolf(6, 1, world),
                 new Sheep(8, 1, world),
                 new Sheep(9, 5, world),
+                new Fox(6, 3, world),
+                new Fox(8, 9, world),
 
                 // Plants
                 new Grass(4, 2, world)

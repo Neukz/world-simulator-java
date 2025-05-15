@@ -3,10 +3,7 @@ package oop.worldsimulator.model;
 import oop.worldsimulator.model.organisms.Animal;
 import oop.worldsimulator.model.organisms.Organism;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class World {
     private static final String SAVE_FILENAME = "save.txt";
@@ -70,6 +67,7 @@ public class World {
 
         // Remove dead organisms and add newly spawned
         organisms.removeIf(o -> !o.isAlive());
+        toAdd.removeIf(o -> !o.isAlive());
         organisms.addAll(toAdd);
         toAdd.clear();
     }
@@ -83,7 +81,7 @@ public class World {
 
         // Consider newly spawned organisms as well
         for (Organism other : toAdd) {
-            if (other.getPosition().equals(organism.getPosition())) {
+            if (other.isAlive() && !other.equals(organism) && other.getPosition().equals(organism.getPosition())) {
                 return other;
             }
         }
@@ -100,7 +98,7 @@ public class World {
 
         // Consider newly spawned organisms as well
         for (Organism o : toAdd) {
-            if (o.getPosition().equals(position)) {
+            if (o.isAlive() && o.getPosition().equals(position)) {
                 return o;
             }
         }
