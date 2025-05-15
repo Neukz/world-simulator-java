@@ -70,6 +70,22 @@ public class World {
         toAdd.removeIf(o -> !o.isAlive());
         organisms.addAll(toAdd);
         toAdd.clear();
+
+        validateUniquePositions();
+    }
+
+    public void validateUniquePositions() {
+        Set<Position> seen = new HashSet<>();
+        for (Organism o : organisms) {
+            if (!seen.add(o.getPosition())) {
+                System.err.println("WARNING: Multiple organisms at position " + o.getPosition());
+            }
+        }
+        for (Organism o : toAdd) {
+            if (!seen.add(o.getPosition())) {
+                System.err.println("WARNING: Multiple organisms (including toAdd) at " + o.getPosition());
+            }
+        }
     }
 
     public Organism getCollidingOrganism(Organism organism) {
