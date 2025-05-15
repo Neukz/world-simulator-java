@@ -41,6 +41,8 @@ public class WorldController {
                 new Sheep(9, 5, world),
                 new Fox(6, 3, world),
                 new Fox(8, 9, world),
+                new Turtle(1, 1, world),
+                new Turtle(1, 3, world),
                 new Antelope(0, 8, world),
                 new Antelope(6, 8, world),
 
