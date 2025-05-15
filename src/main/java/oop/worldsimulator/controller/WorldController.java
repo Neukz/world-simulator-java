@@ -48,7 +48,8 @@ public class WorldController {
 
                 // Plants
                 new Grass(4, 2, world),
-                new SowThistle(4, 8, world)
+                new SowThistle(4, 8, world),
+                new Guarana(2, 6, world)
         );
 
         drawWorld();
