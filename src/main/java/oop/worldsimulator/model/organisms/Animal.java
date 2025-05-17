@@ -32,9 +32,9 @@ public abstract class Animal extends Organism {
 
         // Fight
         if (this.getStrength() > other.getStrength()) {
-            other.kill();
+            other.kill(this);
         } else {
-            this.kill();
+            this.kill(other);
         }
     }
 }

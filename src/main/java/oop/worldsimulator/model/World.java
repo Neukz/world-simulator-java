@@ -12,6 +12,7 @@ public class World {
     private final int width, height;
     private final List<Organism> organisms = new ArrayList<>();
     private final List<Organism> toAdd = new ArrayList<>();
+    private final List<String> eventLog = new ArrayList<>();
     private final Random random = new Random();
 
 
@@ -32,8 +33,20 @@ public class World {
         return new ArrayList<>(organisms);  // Defensive copy
     }
 
+    public List<String> getEventLog() {
+        return new ArrayList<>(eventLog);   // Defensive copy
+    }
+
     public void queueOrganism(Organism organism) {
         toAdd.add(organism);
+    }
+
+    public void logEvent(String event) {
+        eventLog.add(event);
+    }
+
+    public void clearEventLog() {
+        eventLog.clear();
     }
 
     public void populate(Organism... organisms) {

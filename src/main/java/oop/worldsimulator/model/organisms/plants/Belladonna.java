@@ -24,7 +24,7 @@ public class Belladonna extends Plant {
     @Override
     public void collision(Organism other) {
         super.collision(other);
-        other.kill();
+        other.kill(this);
     }
 
 

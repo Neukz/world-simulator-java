@@ -58,8 +58,12 @@ public abstract class Organism implements Comparable<Organism> {
         age++;
     }
 
-    public void kill() {
+    public void kill(Organism killer) {
         this.alive = false;
+
+        // If it was a Plant - eaten
+        String cause = this instanceof Plant ? "eaten" : "killed";
+        world.logEvent(this.getSpecies() + " has been " + cause + " by " + killer.getSpecies() + " at " + this.getPosition() + ".");
     }
 
     public void setStrength(int strength) {
@@ -93,6 +97,7 @@ public abstract class Organism implements Comparable<Organism> {
         String species = getSpecies();
         Organism child = OrganismFactory.getInstance().create(species, childPos.getX(), childPos.getY(), world);
         world.queueOrganism(child);
+        world.logEvent(child.getSpecies() + " has been spawned at " + childPos + ".");
     }
 
     public abstract String getSpecies();

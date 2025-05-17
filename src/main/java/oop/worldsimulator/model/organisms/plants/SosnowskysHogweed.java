@@ -34,7 +34,7 @@ public class SosnowskysHogweed extends Plant {
     @Override
     public void collision(Organism other) {
         super.collision(other);
-        other.kill();
+        other.kill(this);
     }
 
     private void killNeighboringAnimals() {
@@ -44,7 +44,7 @@ public class SosnowskysHogweed extends Plant {
             Organism organism = world.getOrganismAt(neighbor);
 
             if (organism instanceof Animal) {
-                organism.kill();
+                organism.kill(this);
             }
         }
     }

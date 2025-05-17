@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import oop.worldsimulator.model.Position;
 import oop.worldsimulator.model.World;
@@ -27,6 +28,7 @@ public class WorldController {
 
 
     @FXML private GridPane worldGrid;
+    @FXML private VBox logBox;
     @FXML private Button nextTurnButton;
     private final World world = new World(10, 10);
 
@@ -61,6 +63,8 @@ public class WorldController {
     private void onNextTurnClick() {
         world.nextTurn();
         drawWorld();
+        printLogs();
+        world.clearEventLog();
     }
 
     private void drawWorld() {
@@ -91,6 +95,16 @@ public class WorldController {
 
                 worldGrid.add(field, x, y);
             }
+        }
+    }
+
+    private void printLogs() {
+        logBox.getChildren().clear();
+
+        for (String entry : world.getEventLog()) {
+            Label log = new Label(entry);
+            log.setWrapText(true);
+            logBox.getChildren().add(log);
         }
     }
 }

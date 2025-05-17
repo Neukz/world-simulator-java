@@ -4,6 +4,11 @@
 <?import javafx.scene.control.*?>
 
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="oop.worldsimulator.controller.WorldController">
-    <GridPane fx:id="worldGrid" />
+    <HBox>
+        <GridPane fx:id="worldGrid" />
+        <ScrollPane hbarPolicy="NEVER">
+            <VBox fx:id="logBox" spacing="5" prefWidth="350" style="-fx-padding: 10;" />
+        </ScrollPane>
+    </HBox>
     <Button fx:id="nextTurnButton" text="Next Turn" onAction="#onNextTurnClick" />
 </VBox>

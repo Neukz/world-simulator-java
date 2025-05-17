@@ -21,6 +21,6 @@ public abstract class Plant extends Organism {
 
     @Override
     public void collision(Organism other) {
-        this.kill();    // Plants are eaten (die) on collision
+        this.kill(other);    // Plants are eaten (die) on collision
     }
 }
