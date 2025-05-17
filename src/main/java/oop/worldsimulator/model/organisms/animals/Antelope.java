@@ -6,17 +6,12 @@ import oop.worldsimulator.model.factory.OrganismFactory;
 import oop.worldsimulator.model.organisms.Animal;
 import oop.worldsimulator.model.organisms.Organism;
 
-import java.util.Random;
-
 public class Antelope extends Animal {
     private static final int STRENGTH = 4;
     private static final int INITIATIVE = 4;
     private static final String SYMBOL = "🦌";
     private static final String SPECIES = "Antelope";
     private static final boolean REGISTERED = register();
-
-
-    private final Random random = new Random();
 
 
     public Antelope(int x, int y, World world) {
@@ -41,7 +36,7 @@ public class Antelope extends Animal {
     @Override
     public void collision(Organism other) {
         if (!(other instanceof Antelope)) {
-            boolean shouldEscape = random.nextInt(100) < 50;    // 50% chance to escape from fight
+            boolean shouldEscape = RANDOM.nextInt(100) < 50;    // 50% chance to escape from fight
 
             if (shouldEscape) {
                 escape();

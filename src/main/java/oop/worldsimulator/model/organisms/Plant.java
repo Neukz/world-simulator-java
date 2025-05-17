@@ -2,14 +2,9 @@ package oop.worldsimulator.model.organisms;
 
 import oop.worldsimulator.model.World;
 
-import java.util.Random;
-
 public abstract class Plant extends Organism {
     // % chance (0-100)
     private static final int SOWING_PROBABILITY = 10;
-
-
-    private final Random random = new Random();
 
 
     public Plant(int strength, String symbol, int x, int y, World world) {
@@ -18,7 +13,7 @@ public abstract class Plant extends Organism {
 
     @Override
     public void action() {
-        boolean canReproduce = random.nextInt(100) < SOWING_PROBABILITY;
+        boolean canReproduce = RANDOM.nextInt(100) < SOWING_PROBABILITY;
         if (canReproduce) {
             reproduce();
         }

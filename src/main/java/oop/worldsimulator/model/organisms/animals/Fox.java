@@ -7,7 +7,6 @@ import oop.worldsimulator.model.organisms.Animal;
 import oop.worldsimulator.model.organisms.Organism;
 
 import java.util.List;
-import java.util.Random;
 
 public class Fox extends Animal {
     private static final int STRENGTH = 3;
@@ -15,9 +14,6 @@ public class Fox extends Animal {
     private static final String SYMBOL = "🦊";
     private static final String SPECIES = "Fox";
     private static final boolean REGISTERED = register();
-
-
-    private final Random random = new Random();
 
 
     public Fox(int x, int y, World world) {
@@ -35,7 +31,7 @@ public class Fox extends Animal {
         List<Position> neighbors = pos.getNeighbors();
 
         while (!neighbors.isEmpty()) {
-            int i = random.nextInt(neighbors.size());
+            int i = RANDOM.nextInt(neighbors.size());
             Position candidate = neighbors.remove(i);
             setPosition(candidate);
 

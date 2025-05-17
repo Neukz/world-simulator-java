@@ -4,7 +4,12 @@ import oop.worldsimulator.model.Position;
 import oop.worldsimulator.model.World;
 import oop.worldsimulator.model.factory.OrganismFactory;
 
+import java.util.Random;
+
 public abstract class Organism implements Comparable<Organism> {
+    protected static final Random RANDOM = new Random();
+
+
     private int age = 0;
     private boolean alive = true;
     private int strength;
