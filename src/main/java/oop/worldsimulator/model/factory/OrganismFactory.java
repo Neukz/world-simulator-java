@@ -8,14 +8,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OrganismFactory {
+public final class OrganismFactory {
     @FunctionalInterface
     public interface OrganismCreator {
         Organism create(int x, int y, World world);
     }
 
 
-    // Singleton INSTANCE
+    // Singleton instance
     private static final OrganismFactory INSTANCE = new OrganismFactory();
 
 

@@ -1,5 +1,6 @@
 package oop.worldsimulator.model;
 
+import oop.worldsimulator.model.factory.OrganismFactory;
 import oop.worldsimulator.model.organisms.Animal;
 import oop.worldsimulator.model.organisms.Organism;
 
@@ -51,6 +52,23 @@ public class World {
 
     public void populate(Organism... organisms) {
         Collections.addAll(this.organisms, organisms);
+    }
+
+    public void randomSeed() {
+        OrganismFactory factory = OrganismFactory.getInstance();
+        List<String> types = factory.getRegisteredTypes();
+
+        // Create 2 organisms of each type (except Human)
+        for (String species : types) {
+            for (int i = 0; i < 2; i++) {
+                Position pos = getRandomFreeField();
+                Organism organism = factory.create(species, pos.getX(), pos.getY(), this);
+
+                if (organism != null) {
+                    organisms.add(organism);
+                }
+            }
+        }
     }
 
     public void nextTurn() {
@@ -135,20 +153,6 @@ public class World {
         return null;
     }
 
-    public Position getRandomFreeField() {
-        int x = random.nextInt(width);
-        int y = random.nextInt(height);
-        Position pos = new Position(x, y);
-
-        while (getOrganismAt(pos) != null) {
-            x = random.nextInt(width);
-            y = random.nextInt(height);
-            pos = new Position(x, y);
-        }
-
-        return pos;
-    }
-
     public Position getRandomFreeNeighboringField(Organism organism) {
         Position position = organism.getPosition();
         List<Position> neighbors = position.getNeighbors();
@@ -172,5 +176,19 @@ public class World {
         int y = position.getY();
 
         return x >= 0 && y >= 0 && x < width && y < height;
+    }
+
+    private Position getRandomFreeField() {
+        int x = random.nextInt(width);
+        int y = random.nextInt(height);
+        Position pos = new Position(x, y);
+
+        while (getOrganismAt(pos) != null) {
+            x = random.nextInt(width);
+            y = random.nextInt(height);
+            pos = new Position(x, y);
+        }
+
+        return pos;
     }
 }

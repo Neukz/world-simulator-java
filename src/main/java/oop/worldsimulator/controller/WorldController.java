@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import oop.worldsimulator.model.Position;
 import oop.worldsimulator.model.World;
+import oop.worldsimulator.model.factory.OrganismRegistry;
 import oop.worldsimulator.model.organisms.Organism;
 import oop.worldsimulator.model.organisms.animals.*;
 import oop.worldsimulator.model.organisms.plants.*;
@@ -35,6 +36,8 @@ public class WorldController {
 
     @FXML
     private void initialize() {
+        OrganismRegistry.registerAll();
+
         world.populate(
                 // Animals
                 new Wolf(9, 3, world),
@@ -55,6 +58,8 @@ public class WorldController {
                 new Belladonna(7, 6, world),
                 new SosnowskysHogweed(5, 5, world)
         );
+
+//        world.randomSeed();
 
         drawWorld();
     }

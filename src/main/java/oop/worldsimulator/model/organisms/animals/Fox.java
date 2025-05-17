@@ -2,18 +2,17 @@ package oop.worldsimulator.model.organisms.animals;
 
 import oop.worldsimulator.model.Position;
 import oop.worldsimulator.model.World;
-import oop.worldsimulator.model.factory.OrganismFactory;
 import oop.worldsimulator.model.organisms.Animal;
 import oop.worldsimulator.model.organisms.Organism;
 
 import java.util.List;
 
 public class Fox extends Animal {
+    public static final String SPECIES = "Fox";
+
     private static final int STRENGTH = 3;
     private static final int INITIATIVE = 7;
     private static final String SYMBOL = "🦊";
-    private static final String SPECIES = "Fox";
-    private static final boolean REGISTERED = register();
 
 
     public Fox(int x, int y, World world) {
@@ -49,11 +48,5 @@ public class Fox extends Animal {
         }
 
         return other.getStrength() > this.getStrength();
-    }
-
-
-    private static boolean register() {
-        OrganismFactory.getInstance().registerType(SPECIES, Fox::new);
-        return true;
     }
 }
