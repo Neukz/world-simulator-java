@@ -4,6 +4,7 @@ import oop.worldsimulator.model.Position;
 import oop.worldsimulator.model.factory.OrganismFactory;
 import oop.worldsimulator.model.organisms.Animal;
 import oop.worldsimulator.model.organisms.Organism;
+import oop.worldsimulator.model.organisms.animals.Human;
 
 import java.util.*;
 
@@ -103,8 +104,17 @@ public abstract class World {
             }
         }
 
-        // Remove dead organisms and add newly spawned
-        organisms.removeIf(o -> !o.isAlive());
+        // Remove dead organisms and add newly spawned ones
+        organisms.removeIf(o -> {
+            boolean isDead = !o.isAlive();
+
+            // Clean up singleton if human died
+            if (isDead && o instanceof Human) {
+                Human.deleteInstance();
+            }
+
+            return isDead;
+        });
         toAdd.removeIf(o -> !o.isAlive());
         mergeOrganisms();
     }
@@ -181,6 +191,8 @@ public abstract class World {
         List<Position> neighbors = getNeighbors(position, range);
         return neighbors.get(RANDOM.nextInt(neighbors.size()));
     }
+
+    public abstract Map<Human.Direction, Position> getValidMoves(Position position);
 
     private Position getRandomFreeField() {
         Position pos;

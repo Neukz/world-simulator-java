@@ -1,9 +1,11 @@
 package oop.worldsimulator.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -43,10 +45,19 @@ public class WorldController {
 
     @FXML
     private void initialize() {
+        Platform.runLater(() -> {
+            if (world instanceof HexagonalWorld) {
+                worldPane.getScene().setOnKeyPressed(this::handleKeyPress);
+            } else {
+                worldGrid.getScene().setOnKeyPressed(this::handleKeyPress);
+            }
+        });
+
         OrganismRegistry.registerAll();
 
         world.populate(
                 // Animals
+                Human.spawn(4, 0, world),
                 new Wolf(9, 3, world),
                 new Wolf(6, 1, world),
                 new Sheep(8, 1, world),
@@ -73,10 +84,43 @@ public class WorldController {
 
     @FXML
     private void onNextTurnClick() {
-        world.nextTurn();
-        drawWorld();
-        printLogs();
-        world.clearEventLog();
+        nextTurnButton.setDisable(true);
+
+        new Thread(() -> {
+            world.nextTurn();
+
+            // Update the UI after turn finishes
+            Platform.runLater(() -> {
+                drawWorld();
+                printLogs();
+                world.clearEventLog();
+
+                nextTurnButton.setDisable(false);  // Re-enable after turn
+            });
+        }).start();
+    }
+
+    private void handleKeyPress(KeyEvent event) {
+        Human human = Human.getInstance();
+
+        if (human != null) {
+            Human.Direction direction = switch (event.getCode()) {
+                case W -> Human.Direction.UP;
+                case S -> Human.Direction.DOWN;
+                case A -> Human.Direction.LEFT;
+                case D -> Human.Direction.RIGHT;
+                case Q -> Human.Direction.UP_LEFT;
+                case E -> Human.Direction.UP_RIGHT;
+                case Z -> Human.Direction.DOWN_LEFT;
+                case C -> Human.Direction.DOWN_RIGHT;
+                default -> null;
+            };
+
+            if (direction != null) {
+                // Avoid blocking the main thread
+                Platform.runLater(() -> human.setDirection(direction));
+            }
+        }
     }
 
     private void drawWorld() {

@@ -8,7 +8,7 @@ public final class OrganismRegistry {
         OrganismFactory factory = OrganismFactory.getInstance();
 
         // Animals
-//        factory.registerType(Human.SPECIES, Human::new);
+        factory.registerType(Human.SPECIES, Human::spawn);
         factory.registerType(Wolf.SPECIES, Wolf::new);
         factory.registerType(Sheep.SPECIES, Sheep::new);
         factory.registerType(Fox.SPECIES, Fox::new);
