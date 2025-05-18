@@ -1,11 +1,8 @@
 package oop.worldsimulator.model;
 
 import java.util.Objects;
-import java.util.Random;
 
 public class Position implements Comparable<Position> {
-    private static final Random RANDOM = new Random();
-
     public static final Position INVALID_POSITION = new Position(-1, -1);
 
 

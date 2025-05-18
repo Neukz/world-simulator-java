@@ -9,6 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import oop.worldsimulator.model.Position;
 import oop.worldsimulator.model.factory.OrganismRegistry;
@@ -98,8 +99,12 @@ public class WorldController {
         for (int y = 0; y < world.getHeight(); y++) {
             for (int x = 0; x < world.getWidth(); x++) {
                 StackPane field = new StackPane();
-                field.setPrefSize(SQUARE_SIZE, SQUARE_SIZE);
-                field.setStyle("-fx-border-color: black;");
+
+                Rectangle square = new Rectangle(SQUARE_SIZE, SQUARE_SIZE);
+                square.setFill(Color.BEIGE);
+                square.setStroke(Color.BLACK);
+
+                field.getChildren().add(square);
 
                 // Add organism's symbol if the field is occupied
                 if (current != null && current.getPosition().equals(new Position(x, y))) {
@@ -131,19 +136,19 @@ public class WorldController {
         // Draw fields
         for (int y = 0; y < world.getHeight(); y++) {
             for (int x = 0; x < world.getWidth(); x++) {
-                double screenX = x * hexWidth + (y % 2 == 1 ? hexWidth / 2 : 0);
-                double screenY = y * (0.75 * hexHeight);
+                double windowX = x * hexWidth + (y % 2 == 1 ? hexWidth / 2 : 0);
+                double windowY = y * (0.75 * hexHeight);
 
                 StackPane field = new StackPane();
-                field.setLayoutX(screenX);
-                field.setLayoutY(screenY);
+                field.setLayoutX(windowX);
+                field.setLayoutY(windowY);
                 field.setPrefSize(hexWidth, hexHeight);
 
-                Polygon hex = createHexagon(HEXAGON_SIZE);
-                hex.setFill(Color.BEIGE);
-                hex.setStroke(Color.BLACK);
+                Polygon hexagon = createHexagon(HEXAGON_SIZE);
+                hexagon.setFill(Color.BEIGE);
+                hexagon.setStroke(Color.BLACK);
 
-                field.getChildren().add(hex);
+                field.getChildren().add(hexagon);
 
                 // Add organism's symbol if the field is occupied
                 if (current != null && current.getPosition().equals(new Position(x, y))) {
