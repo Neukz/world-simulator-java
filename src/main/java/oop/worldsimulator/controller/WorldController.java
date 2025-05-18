@@ -2,6 +2,7 @@ package oop.worldsimulator.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -12,6 +13,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import oop.worldsimulator.model.Position;
+import oop.worldsimulator.model.factory.OrganismFactory;
 import oop.worldsimulator.model.factory.OrganismRegistry;
 import oop.worldsimulator.model.organisms.Organism;
 import oop.worldsimulator.model.organisms.animals.*;
@@ -106,8 +108,15 @@ public class WorldController {
 
                 field.getChildren().add(square);
 
+                Position pos = new Position(x, y);
+
+                // Enable adding an organism on a free cell
+                if (current == null || !current.getPosition().equals(pos)) {
+                    field.setOnMouseClicked(e -> openOrganismSelectionDialog(pos));
+                }
+
                 // Add organism's symbol if the field is occupied
-                if (current != null && current.getPosition().equals(new Position(x, y))) {
+                if (current != null && current.getPosition().equals(pos)) {
                     Label symbol = new Label(current.getSymbol());
                     symbol.setFont(Font.font(EMOJI_FONT, EMOJI_SIZE));
                     field.getChildren().add(symbol);
@@ -150,8 +159,15 @@ public class WorldController {
 
                 field.getChildren().add(hexagon);
 
+                Position pos = new Position(x, y);
+
+                // Enable adding an organism on a free cell
+                if (current == null || !current.getPosition().equals(pos)) {
+                    field.setOnMouseClicked(e -> openOrganismSelectionDialog(pos));
+                }
+
                 // Add organism's symbol if the field is occupied
-                if (current != null && current.getPosition().equals(new Position(x, y))) {
+                if (current != null && current.getPosition().equals(pos)) {
                     Label symbol = new Label(current.getSymbol());
                     symbol.setFont(Font.font(EMOJI_FONT, EMOJI_SIZE));
                     field.getChildren().add(symbol);
@@ -186,5 +202,27 @@ public class WorldController {
             log.setWrapText(true);
             logBox.getChildren().add(log);
         }
+    }
+
+    private void openOrganismSelectionDialog(Position position) {
+        OrganismFactory factory = OrganismFactory.getInstance();
+        List<String> types = factory.getRegisteredTypes();
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(types.getFirst(), types);
+        dialog.setTitle("Add Organism");
+        dialog.setHeaderText("Select an organism to add at " + position + ".");
+        dialog.setContentText("Organism:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(species -> {
+            Organism newOrganism = factory.create(species, position.getX(), position.getY(), world);
+
+            if (newOrganism != null) {
+                world.queueOrganism(newOrganism);
+                world.mergeOrganisms();
+
+                drawWorld();    // Refresh view
+            }
+        });
     }
 }

@@ -44,6 +44,11 @@ public abstract class World {
         toAdd.add(organism);
     }
 
+    public void mergeOrganisms() {
+        organisms.addAll(toAdd);
+        toAdd.clear();
+    }
+
     public void logEvent(String event) {
         eventLog.add(event);
     }
@@ -101,8 +106,7 @@ public abstract class World {
         // Remove dead organisms and add newly spawned
         organisms.removeIf(o -> !o.isAlive());
         toAdd.removeIf(o -> !o.isAlive());
-        organisms.addAll(toAdd);
-        toAdd.clear();
+        mergeOrganisms();
     }
 
     public Organism getCollidingOrganism(Organism organism) {
