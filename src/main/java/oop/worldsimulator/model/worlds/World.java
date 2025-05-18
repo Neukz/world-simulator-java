@@ -173,7 +173,10 @@ public abstract class World {
         return getRandomNeighbor(position, 1);
     }
 
-    public abstract Position getRandomNeighbor(Position position, int range);
+    public Position getRandomNeighbor(Position position, int range) {
+        List<Position> neighbors = getNeighbors(position, range);
+        return neighbors.get(RANDOM.nextInt(neighbors.size()));
+    }
 
     private Position getRandomFreeField() {
         Position pos;

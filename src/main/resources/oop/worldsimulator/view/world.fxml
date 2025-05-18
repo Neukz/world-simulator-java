@@ -6,6 +6,7 @@
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="oop.worldsimulator.controller.WorldController">
     <HBox>
         <GridPane fx:id="worldGrid" />
+        <Pane fx:id="worldPane" />
         <ScrollPane hbarPolicy="NEVER">
             <VBox fx:id="logBox" spacing="5" prefWidth="350" style="-fx-padding: 10;" />
         </ScrollPane>

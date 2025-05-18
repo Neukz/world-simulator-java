@@ -23,10 +23,4 @@ public class SquareWorld extends World {
 
         return neighbors;
     }
-
-    @Override
-    public Position getRandomNeighbor(Position position, int range) {
-        List<Position> neighbors = getNeighbors(position, range);
-        return neighbors.get(RANDOM.nextInt(neighbors.size()));
-    }
 }
