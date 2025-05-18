@@ -1,6 +1,6 @@
 package oop.worldsimulator.model.organisms.plants;
 
-import oop.worldsimulator.model.World;
+import oop.worldsimulator.model.worlds.World;
 import oop.worldsimulator.model.organisms.Organism;
 import oop.worldsimulator.model.organisms.Plant;
 

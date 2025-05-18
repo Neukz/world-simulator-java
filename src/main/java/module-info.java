@@ -9,4 +9,6 @@ module oop.worldsimulator {
     opens oop.worldsimulator.model to javafx.fxml;
     exports oop.worldsimulator.controller;
     opens oop.worldsimulator.controller to javafx.fxml;
+    exports oop.worldsimulator.model.worlds;
+    opens oop.worldsimulator.model.worlds to javafx.fxml;
 }

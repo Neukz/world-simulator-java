@@ -1,7 +1,7 @@
 package oop.worldsimulator.model.organisms;
 
 import oop.worldsimulator.model.Position;
-import oop.worldsimulator.model.World;
+import oop.worldsimulator.model.worlds.World;
 import oop.worldsimulator.model.factory.OrganismFactory;
 
 import java.util.Random;

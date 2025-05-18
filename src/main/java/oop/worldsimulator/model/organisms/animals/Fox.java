@@ -1,7 +1,7 @@
 package oop.worldsimulator.model.organisms.animals;
 
 import oop.worldsimulator.model.Position;
-import oop.worldsimulator.model.World;
+import oop.worldsimulator.model.worlds.World;
 import oop.worldsimulator.model.organisms.Animal;
 import oop.worldsimulator.model.organisms.Organism;
 
@@ -27,7 +27,7 @@ public class Fox extends Animal {
     @Override
     public void action() {
         Position pos = getPosition();
-        List<Position> neighbors = pos.getNeighbors();
+        List<Position> neighbors = world.getNeighbors(pos);
 
         while (!neighbors.isEmpty()) {
             int i = RANDOM.nextInt(neighbors.size());

@@ -8,7 +8,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import oop.worldsimulator.model.Position;
-import oop.worldsimulator.model.World;
+import oop.worldsimulator.model.worlds.SquareWorld;
+import oop.worldsimulator.model.worlds.World;
 import oop.worldsimulator.model.factory.OrganismRegistry;
 import oop.worldsimulator.model.organisms.Organism;
 import oop.worldsimulator.model.organisms.animals.*;
@@ -31,7 +32,7 @@ public class WorldController {
     @FXML private GridPane worldGrid;
     @FXML private VBox logBox;
     @FXML private Button nextTurnButton;
-    private final World world = new World(10, 10);
+    private final World world = new SquareWorld(10, 10);
 
 
     @FXML

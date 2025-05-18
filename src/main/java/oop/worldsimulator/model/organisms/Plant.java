@@ -1,6 +1,6 @@
 package oop.worldsimulator.model.organisms;
 
-import oop.worldsimulator.model.World;
+import oop.worldsimulator.model.worlds.World;
 
 public abstract class Plant extends Organism {
     // % chance (0-100)

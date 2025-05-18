@@ -1,7 +1,7 @@
 package oop.worldsimulator.model.organisms;
 
 import oop.worldsimulator.model.Position;
-import oop.worldsimulator.model.World;
+import oop.worldsimulator.model.worlds.World;
 
 public abstract class Animal extends Organism {
     public Animal(int strength, int initiative, String symbol, int x, int y, World world) {
@@ -12,7 +12,7 @@ public abstract class Animal extends Organism {
     public void action() {
         Position pos = getPosition();
         do {
-            Position randomNeighbor = pos.getRandomNeighbor();
+            Position randomNeighbor = world.getRandomNeighbor(pos);
             setPosition(randomNeighbor);
         } while (pos == getPosition());	// Repeat until a valid new position is set
         setPrevPosition(pos);

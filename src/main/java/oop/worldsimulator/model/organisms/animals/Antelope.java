@@ -1,7 +1,7 @@
 package oop.worldsimulator.model.organisms.animals;
 
 import oop.worldsimulator.model.Position;
-import oop.worldsimulator.model.World;
+import oop.worldsimulator.model.worlds.World;
 import oop.worldsimulator.model.organisms.Animal;
 import oop.worldsimulator.model.organisms.Organism;
 
@@ -26,7 +26,7 @@ public class Antelope extends Animal {
     public void action() {
         Position pos = getPosition();
         do {
-            Position randomNeighbor = pos.getRandomNeighbor(2);
+            Position randomNeighbor = world.getRandomNeighbor(pos, 2);
             setPosition(randomNeighbor);
         } while (pos == getPosition());
         setPrevPosition(pos);

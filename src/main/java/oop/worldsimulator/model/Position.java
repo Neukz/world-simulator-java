@@ -1,7 +1,5 @@
 package oop.worldsimulator.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -33,30 +31,6 @@ public class Position implements Comparable<Position> {
 
     public void setY(int y) {
         this.y = y;
-    }
-
-    public List<Position> getNeighbors() {
-        return getNeighbors(1);
-    }
-
-    public List<Position> getNeighbors(int range) {
-        List<Position> neighbors = new ArrayList<>();
-
-        neighbors.add(new Position(x, y - range));
-        neighbors.add(new Position(x, y + range));
-        neighbors.add(new Position(x - range, y));
-        neighbors.add(new Position(x + range, y));
-
-        return neighbors;
-    }
-
-    public Position getRandomNeighbor() {
-        return getRandomNeighbor(1);
-    }
-
-    public Position getRandomNeighbor(int range) {
-        List<Position> neighbors = getNeighbors(range);
-        return neighbors.get(RANDOM.nextInt(neighbors.size()));
     }
 
     @Override

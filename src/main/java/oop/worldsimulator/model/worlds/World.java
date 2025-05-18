@@ -1,20 +1,22 @@
-package oop.worldsimulator.model;
+package oop.worldsimulator.model.worlds;
 
+import oop.worldsimulator.model.Position;
 import oop.worldsimulator.model.factory.OrganismFactory;
 import oop.worldsimulator.model.organisms.Animal;
 import oop.worldsimulator.model.organisms.Organism;
 
 import java.util.*;
 
-public class World {
+public abstract class World {
     private static final String SAVE_FILENAME = "save.txt";
+
+    protected static final Random RANDOM = new Random();
 
 
     private final int width, height;
     private final List<Organism> organisms = new ArrayList<>();
     private final List<Organism> toAdd = new ArrayList<>();
     private final List<String> eventLog = new ArrayList<>();
-    private final Random random = new Random();
 
 
     public World(int width, int height) {
@@ -101,22 +103,6 @@ public class World {
         toAdd.removeIf(o -> !o.isAlive());
         organisms.addAll(toAdd);
         toAdd.clear();
-
-        validateUniquePositions();
-    }
-
-    public void validateUniquePositions() {
-        Set<Position> seen = new HashSet<>();
-        for (Organism o : organisms) {
-            if (!seen.add(o.getPosition())) {
-                System.err.println("WARNING: Multiple organisms at position " + o.getPosition());
-            }
-        }
-        for (Organism o : toAdd) {
-            if (!seen.add(o.getPosition())) {
-                System.err.println("WARNING: Multiple organisms (including toAdd) at " + o.getPosition());
-            }
-        }
     }
 
     public Organism getCollidingOrganism(Organism organism) {
@@ -154,11 +140,10 @@ public class World {
     }
 
     public Position getRandomFreeNeighboringField(Organism organism) {
-        Position position = organism.getPosition();
-        List<Position> neighbors = position.getNeighbors();
+        List<Position> neighbors = getNeighbors(organism.getPosition());
 
         while (!neighbors.isEmpty()) {
-            int i = random.nextInt(neighbors.size());
+            int i = RANDOM.nextInt(neighbors.size());
             Position randomNeighbor = neighbors.get(i);
 
             if (positionWithinBounds(randomNeighbor) && getOrganismAt(randomNeighbor) == null) {
@@ -178,16 +163,24 @@ public class World {
         return x >= 0 && y >= 0 && x < width && y < height;
     }
 
-    private Position getRandomFreeField() {
-        int x = random.nextInt(width);
-        int y = random.nextInt(height);
-        Position pos = new Position(x, y);
+    public List<Position> getNeighbors(Position position) {
+        return getNeighbors(position, 1);
+    }
 
-        while (getOrganismAt(pos) != null) {
-            x = random.nextInt(width);
-            y = random.nextInt(height);
-            pos = new Position(x, y);
-        }
+    public abstract List<Position> getNeighbors(Position position, int range);
+
+    public Position getRandomNeighbor(Position position) {
+        return getRandomNeighbor(position, 1);
+    }
+
+    public abstract Position getRandomNeighbor(Position position, int range);
+
+    private Position getRandomFreeField() {
+        Position pos;
+
+        do {
+            pos = new Position(RANDOM.nextInt(width), RANDOM.nextInt(height));
+        } while (getOrganismAt(pos) != null);
 
         return pos;
     }

@@ -1,6 +1,6 @@
 package oop.worldsimulator.model.factory;
 
-import oop.worldsimulator.model.World;
+import oop.worldsimulator.model.worlds.World;
 import oop.worldsimulator.model.organisms.Organism;
 
 import java.util.ArrayList;
