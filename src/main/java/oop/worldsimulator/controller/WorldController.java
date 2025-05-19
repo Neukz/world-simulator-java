@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -103,23 +104,37 @@ public class WorldController {
     private void handleKeyPress(KeyEvent event) {
         Human human = Human.getInstance();
 
-        if (human != null) {
-            Human.Direction direction = switch (event.getCode()) {
-                case W -> Human.Direction.UP;
-                case S -> Human.Direction.DOWN;
-                case A -> Human.Direction.LEFT;
-                case D -> Human.Direction.RIGHT;
-                case Q -> Human.Direction.UP_LEFT;
-                case E -> Human.Direction.UP_RIGHT;
-                case Z -> Human.Direction.DOWN_LEFT;
-                case C -> Human.Direction.DOWN_RIGHT;
-                default -> null;
-            };
+        if (human == null) {
+            return;
+        }
 
-            if (direction != null) {
-                // Avoid blocking the main thread
-                Platform.runLater(() -> human.setDirection(direction));
+        // Use immortality
+        if (event.getCode() == KeyCode.SPACE) {
+            if (human.activateImmortality()) {
+                world.logEvent("Human has activated Immortality!");
+                printLogs();
+                world.clearEventLog();
             }
+
+            return;
+        }
+
+        // Handle movement
+        Human.Direction direction = switch (event.getCode()) {
+            case W -> Human.Direction.UP;
+            case S -> Human.Direction.DOWN;
+            case A -> Human.Direction.LEFT;
+            case D -> Human.Direction.RIGHT;
+            case Q -> Human.Direction.UP_LEFT;
+            case E -> Human.Direction.UP_RIGHT;
+            case Z -> Human.Direction.DOWN_LEFT;
+            case C -> Human.Direction.DOWN_RIGHT;
+            default -> null;
+        };
+
+        if (direction != null) {
+            // Avoid blocking the main thread
+            Platform.runLater(() -> human.setDirection(direction));
         }
     }
 
