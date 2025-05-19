@@ -4,9 +4,10 @@ import oop.worldsimulator.model.Position;
 import oop.worldsimulator.model.worlds.World;
 import oop.worldsimulator.model.factory.OrganismFactory;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public abstract class Organism implements Comparable<Organism> {
+public abstract class Organism implements Comparable<Organism>, Serializable {
     protected static final Random RANDOM = new Random();
 
 

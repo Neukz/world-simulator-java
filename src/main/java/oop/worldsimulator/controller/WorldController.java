@@ -2,32 +2,28 @@ package oop.worldsimulator.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import oop.worldsimulator.model.Position;
-import oop.worldsimulator.model.factory.OrganismFactory;
-import oop.worldsimulator.model.factory.OrganismRegistry;
+import oop.worldsimulator.model.factory.*;
 import oop.worldsimulator.model.organisms.Organism;
 import oop.worldsimulator.model.organisms.animals.*;
 import oop.worldsimulator.model.organisms.plants.*;
 import oop.worldsimulator.model.worlds.*;
 
+import java.io.*;
 import java.util.*;
 
 public class WorldController {
+    private final static String SAVE_FILENAME = "world.ser";
     private final static int SQUARE_SIZE = 40;
-    private final static int HEXAGON_SIZE = 30;
+    private final static int HEXAGON_SIZE = 25;
     private final static int EMOJI_SIZE = 24;
     // Support rendering emojis cross-platform
     private final static String EMOJI_FONT = switch (System.getProperty("os.name")) {
@@ -37,55 +33,66 @@ public class WorldController {
     };
 
 
-    @FXML private GridPane worldGrid;   // Square world
-    @FXML private Pane worldPane;   // Hexagonal world
-    @FXML private VBox logBox;
-    @FXML private Button nextTurnButton;
-    private final World world = new HexagonalWorld(10, 10);
+    @FXML
+    private GridPane squareWorldGrid;
+    @FXML
+    private Pane hexagonalWorldPane;
+    @FXML
+    private VBox logBox;
+    @FXML
+    private Button nextTurnButton;
+    @FXML
+    private Button saveWorldButton;
+    @FXML
+    private Button loadWorldButton;
+    private World world = new HexagonalWorld(10, 10);
 
 
     @FXML
     private void initialize() {
         Platform.runLater(() -> {
             if (world instanceof HexagonalWorld) {
-                worldPane.getScene().setOnKeyPressed(this::handleKeyPress);
+                hexagonalWorldPane.getScene().setOnKeyPressed(this::handleKeyPress);
             } else {
-                worldGrid.getScene().setOnKeyPressed(this::handleKeyPress);
+                squareWorldGrid.getScene().setOnKeyPressed(this::handleKeyPress);
             }
         });
 
         OrganismRegistry.registerAll();
 
-        world.populate(
-                // Animals
-                Human.spawn(4, 0, world),
-                new Wolf(9, 3, world),
-                new Wolf(6, 1, world),
-                new Sheep(8, 1, world),
-                new Sheep(9, 5, world),
-                new Fox(6, 3, world),
-                new Fox(8, 9, world),
-                new Turtle(1, 1, world),
-                new Turtle(1, 3, world),
-                new Antelope(0, 8, world),
-                new Antelope(6, 8, world),
+//        world.populate(
+//                // Animals
+//                Human.spawn(4, 0, world),
+//                new Wolf(9, 3, world),
+//                new Wolf(6, 1, world),
+//                new Sheep(8, 1, world),
+//                new Sheep(9, 5, world),
+//                new Fox(6, 3, world),
+//                new Fox(8, 9, world),
+//                new Turtle(1, 1, world),
+//                new Turtle(1, 3, world),
+//                new Antelope(0, 8, world),
+//                new Antelope(6, 8, world),
+//
+//                // Plants
+//                new Grass(4, 2, world),
+//                new SowThistle(4, 8, world),
+//                new Guarana(2, 6, world),
+//                new Belladonna(7, 6, world),
+//                new SosnowskysHogweed(5, 5, world)
+//        );
 
-                // Plants
-                new Grass(4, 2, world),
-                new SowThistle(4, 8, world),
-                new Guarana(2, 6, world),
-                new Belladonna(7, 6, world),
-                new SosnowskysHogweed(5, 5, world)
-        );
-
-//        world.randomSeed();
+        world.randomSeed();
 
         drawWorld();
     }
 
     @FXML
     private void onNextTurnClick() {
+        // Disable during the turn
         nextTurnButton.setDisable(true);
+        saveWorldButton.setDisable(true);
+        loadWorldButton.setDisable(true);
 
         new Thread(() -> {
             world.nextTurn();
@@ -96,9 +103,44 @@ public class WorldController {
                 printLogs();
                 world.clearEventLog();
 
-                nextTurnButton.setDisable(false);  // Re-enable after turn
+                // Re-enable after turn
+                nextTurnButton.setDisable(false);
+                saveWorldButton.setDisable(false);
+                loadWorldButton.setDisable(false);
             });
         }).start();
+    }
+
+    @FXML
+    private void onSaveWorldClick() {
+        try (FileOutputStream fos = new FileOutputStream(SAVE_FILENAME);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+
+            oos.writeObject(world);
+
+            world.logEvent("World saved!");
+            printLogs();
+            world.clearEventLog();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onLoadWorldClick() {
+        try (FileInputStream fis = new FileInputStream(SAVE_FILENAME);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+
+            world = (World) ois.readObject();
+
+            world.logEvent("World loaded from save!");
+            printLogs();
+            world.clearEventLog();
+
+            drawWorld();    // Refresh view
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void handleKeyPress(KeyEvent event) {
@@ -139,6 +181,10 @@ public class WorldController {
     }
 
     private void drawWorld() {
+        // Clear both - in case another type of world was loaded
+        squareWorldGrid.getChildren().clear();
+        hexagonalWorldPane.getChildren().clear();
+
         if (world instanceof HexagonalWorld) {
             drawHexagonalWorld();
         } else {
@@ -147,8 +193,6 @@ public class WorldController {
     }
 
     private void drawSquareWorld() {
-        worldGrid.getChildren().clear();
-
         // Sort organisms by position
         List<Organism> organisms = world.getOrganisms();
         organisms.sort(Comparator.comparing(Organism::getPosition));
@@ -183,14 +227,12 @@ public class WorldController {
                     current = iterator.hasNext() ? iterator.next() : null;
                 }
 
-                worldGrid.add(field, x, y);
+                squareWorldGrid.add(field, x, y);
             }
         }
     }
 
     private void drawHexagonalWorld() {
-        worldPane.getChildren().clear();
-
         double hexWidth = Math.sqrt(3) * HEXAGON_SIZE;
         double hexHeight = 2 * HEXAGON_SIZE;
 
@@ -234,7 +276,7 @@ public class WorldController {
                     current = iterator.hasNext() ? iterator.next() : null;
                 }
 
-                worldPane.getChildren().add(field);
+                hexagonalWorldPane.getChildren().add(field);
             }
         }
     }

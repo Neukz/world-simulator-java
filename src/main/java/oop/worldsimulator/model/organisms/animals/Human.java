@@ -5,6 +5,9 @@ import oop.worldsimulator.model.organisms.Animal;
 import oop.worldsimulator.model.organisms.Organism;
 import oop.worldsimulator.model.worlds.World;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.util.Map;
 
 public class Human extends Animal {
@@ -25,7 +28,7 @@ public class Human extends Animal {
     private static Human instance = null;
 
 
-    private final Object lock = new Object();
+    private transient Object lock = new Object();
     private volatile Direction direction = null;
     private boolean readyToMove = false;
     private boolean immortalityActive = false;
@@ -139,6 +142,19 @@ public class Human extends Animal {
                 world.logEvent("Immortality available in " + immortalityCooldownLeft + " turns.");
             }
         }
+    }
+
+    @Serial
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        lock = new Object();    // Restore lock (Object is not Serializable)
+    }
+
+    @Serial
+    private Object readResolve() {
+        // Restore the saved instance
+        instance = this;
+        return instance;
     }
 
 

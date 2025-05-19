@@ -3,13 +3,22 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="oop.worldsimulator.controller.WorldController">
-    <HBox>
-        <GridPane fx:id="worldGrid" />
-        <Pane fx:id="worldPane" />
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="oop.worldsimulator.controller.WorldController" style="-fx-padding: 10;">
+    <HBox spacing="10">
+        <!-- World containers -->
+        <GridPane fx:id="squareWorldGrid" />
+        <Pane fx:id="hexagonalWorldPane" />
+
+        <!-- Event log -->
         <ScrollPane hbarPolicy="NEVER">
-            <VBox fx:id="logBox" spacing="5" prefWidth="350" style="-fx-padding: 10;" />
+            <VBox fx:id="logBox" spacing="5" prefWidth="350" />
         </ScrollPane>
     </HBox>
-    <Button fx:id="nextTurnButton" text="Next Turn" onAction="#onNextTurnClick" />
+
+    <!-- Controls -->
+    <HBox spacing="10" style="-fx-padding: 10 0;">
+        <Button fx:id="nextTurnButton" text="Next Turn" onAction="#onNextTurnClick" />
+        <Button fx:id="saveWorldButton" text="Save World" onAction="#onSaveWorldClick" />
+        <Button fx:id="loadWorldButton" text="Load World" onAction="#onLoadWorldClick" />
+    </HBox>
 </VBox>

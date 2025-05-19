@@ -1,8 +1,9 @@
 package oop.worldsimulator.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Position implements Comparable<Position> {
+public class Position implements Comparable<Position>, Serializable {
     public static final Position INVALID_POSITION = new Position(-1, -1);
 
 

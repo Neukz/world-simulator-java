@@ -6,11 +6,10 @@ import oop.worldsimulator.model.organisms.Animal;
 import oop.worldsimulator.model.organisms.Organism;
 import oop.worldsimulator.model.organisms.animals.Human;
 
+import java.io.Serializable;
 import java.util.*;
 
-public abstract class World {
-    private static final String SAVE_FILENAME = "save.txt";
-
+public abstract class World implements Serializable {
     protected static final Random RANDOM = new Random();
 
 
