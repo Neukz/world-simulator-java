@@ -9,29 +9,34 @@
       alignment="CENTER" spacing="20" style="-fx-padding: 40">
     <Label text="World Setup" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
 
+    <!-- World width -->
     <HBox spacing="10">
         <Label text="Width:" />
         <TextField fx:id="widthField" text="10"  />
     </HBox>
 
+    <!-- World height -->
     <HBox spacing="10">
         <Label text="Height:" />
         <TextField fx:id="heightField" text="10" />
     </HBox>
 
+    <!-- World type -->
     <HBox spacing="10">
         <Label text="World Type:" />
-        <ChoiceBox fx:id="worldTypeChoicebox" value="Square">
+        <ChoiceBox fx:id="worldTypeChoicebox" value="Hexagonal">
             <items>
                 <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="Square" />
                     <String fx:value="Hexagonal" />
+                    <String fx:value="Square" />
                 </FXCollections>
             </items>
         </ChoiceBox>
     </HBox>
 
+    <!-- Random seed flag -->
     <CheckBox fx:id="randomSeedCheckbox" text="Random seed" selected="true" />
 
+    <!-- Start button -->
     <Button text="Start Simulation" onAction="#onStartClicked" />
 </VBox>

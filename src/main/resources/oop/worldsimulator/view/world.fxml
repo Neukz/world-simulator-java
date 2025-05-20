@@ -3,7 +3,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
-<?import javafx.scene.shape.Box?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="oop.worldsimulator.controller.WorldController" style="-fx-padding: 10;">
     <HBox spacing="10">
         <!-- World containers -->
@@ -18,10 +17,13 @@
         </ScrollPane>
     </HBox>
 
-    <!-- Controls -->
     <HBox spacing="10" style="-fx-padding: 10 0;">
+        <!-- Controls -->
         <Button fx:id="nextTurnButton" text="Next Turn" onAction="#onNextTurnClick" />
         <Button fx:id="saveWorldButton" text="Save World" onAction="#onSaveWorldClick" />
         <Button fx:id="loadWorldButton" text="Load World" onAction="#onLoadWorldClick" />
+
+        <!-- Turn counter -->
+        <Label fx:id="turnLabel" text="Turn: 0" style="-fx-font-size: 16; -fx-font-weight: bold;" />
     </HBox>
 </VBox>

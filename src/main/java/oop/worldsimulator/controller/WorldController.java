@@ -44,6 +44,8 @@ public class WorldController {
     private Button saveWorldButton;
     @FXML
     private Button loadWorldButton;
+    @FXML
+    private Label turnLabel;
 
     private World world;
     private boolean turnInProgress = false;
@@ -79,6 +81,7 @@ public class WorldController {
 
             // Update the UI after turn finishes
             Platform.runLater(() -> {
+                turnLabel.setText("Turn: " + world.getTurnNo());
                 drawWorld();
                 printLogs();
                 world.clearEventLog();
@@ -115,6 +118,7 @@ public class WorldController {
             world = (World) ois.readObject();
 
             addAndPrintLogs("World loaded from save!");
+            turnLabel.setText("Turn: " + world.getTurnNo());
             drawWorld();    // Refresh view
         } catch (IOException | ClassNotFoundException e) {
             addAndPrintLogs("Error occurred while loading the world.");

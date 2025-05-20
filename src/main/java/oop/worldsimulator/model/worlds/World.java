@@ -14,6 +14,7 @@ public abstract class World implements Serializable {
 
 
     private final int width, height;
+    private int turnNo = 0;
     private final List<Organism> organisms = new ArrayList<>();
     private final List<Organism> toAdd = new ArrayList<>();
     private final List<String> eventLog = new ArrayList<>();
@@ -30,6 +31,10 @@ public abstract class World implements Serializable {
 
     public int getHeight() {
         return height;
+    }
+
+    public int getTurnNo() {
+        return turnNo;
     }
 
     public List<Organism> getOrganisms() {
@@ -79,6 +84,8 @@ public abstract class World implements Serializable {
     }
 
     public void nextTurn() {
+        turnNo++;
+
         for (Organism o : organisms) {
             o.mature();
         }

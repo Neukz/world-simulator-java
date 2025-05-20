@@ -70,8 +70,8 @@ public class StartController {
         OrganismRegistry.registerAll();
 
         World world = switch (worldType) {
-            case "Square" -> new SquareWorld(width, height);
             case "Hexagonal" -> new HexagonalWorld(width, height);
+            case "Square" -> new SquareWorld(width, height);
             default -> throw new IllegalArgumentException("Invalid world type");
         };
 
