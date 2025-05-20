@@ -11,10 +11,12 @@ public abstract class Animal extends Organism {
     @Override
     public void action() {
         Position pos = getPosition();
+
         do {
             Position randomNeighbor = world.getRandomNeighbor(pos);
             setPosition(randomNeighbor);
         } while (pos == getPosition());	// Repeat until a valid new position is set
+
         setPrevPosition(pos);
     }
 

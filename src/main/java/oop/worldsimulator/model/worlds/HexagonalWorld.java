@@ -19,7 +19,7 @@ public class HexagonalWorld extends World {
         int y = pos.getY();
         List<Position> neighbors = new ArrayList<>();
 
-        boolean evenRow = (y % 2 == 0);
+        boolean evenRow = y % 2 == 0;   // Vertical neighborhood depends on row index
 
         if (evenRow) {
             neighbors.add(new Position(x - range, y - range));
@@ -45,7 +45,7 @@ public class HexagonalWorld extends World {
         int x = position.getX();
         int y = position.getY();
 
-        boolean evenRow = (y % 2 == 0);
+        boolean evenRow = y % 2 == 0;
 
         Map<Human.Direction, Position> allMoves = Map.of(
                 Human.Direction.LEFT,       new Position(x - 1, y),

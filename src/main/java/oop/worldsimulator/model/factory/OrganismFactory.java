@@ -30,9 +30,11 @@ public final class OrganismFactory {
 
     public Organism create(String name, int x, int y, World world) {
         OrganismCreator creator = creators.get(name);
+
         if (creator != null) {
             return creator.create(x, y, world);
         }
+
         return null;
     }
 

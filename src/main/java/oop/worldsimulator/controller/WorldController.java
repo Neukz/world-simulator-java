@@ -210,8 +210,8 @@ public class WorldController {
     }
 
     private void drawHexagonalWorld() {
-        double hexWidth = Math.sqrt(3) * HEXAGON_SIZE;
-        double hexHeight = 2 * HEXAGON_SIZE;
+        double hexagonWidth = Math.sqrt(3) * HEXAGON_SIZE;
+        double hexagonHeight = 2 * HEXAGON_SIZE;
 
         // Sort organisms by position
         List<Organism> organisms = world.getOrganisms();
@@ -223,13 +223,13 @@ public class WorldController {
         // Draw fields
         for (int y = 0; y < world.getHeight(); y++) {
             for (int x = 0; x < world.getWidth(); x++) {
-                double windowX = x * hexWidth + (y % 2 == 1 ? hexWidth / 2 : 0);
-                double windowY = y * (0.75 * hexHeight);
+                double windowX = x * hexagonWidth + (y % 2 == 1 ? hexagonWidth / 2 : 0);
+                double windowY = y * (0.75 * hexagonHeight);
 
                 StackPane field = new StackPane();
                 field.setLayoutX(windowX);
                 field.setLayoutY(windowY);
-                field.setPrefSize(hexWidth, hexHeight);
+                field.setPrefSize(hexagonWidth, hexagonHeight);
 
                 Polygon hexagon = createHexagon(HEXAGON_SIZE);
                 hexagon.setFill(Color.BEIGE);
@@ -311,7 +311,6 @@ public class WorldController {
                 world.mergeOrganisms();
 
                 addAndPrintLogs(species + " has been added at " + newOrganism.getPosition() + ".");
-
                 drawWorld();    // Refresh view
             } else {
                 addAndPrintLogs("Cannot create " + species + ".");

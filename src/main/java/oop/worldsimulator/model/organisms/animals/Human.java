@@ -112,8 +112,8 @@ public class Human extends Animal {
     }
 
     private void move() {
-        Map<Direction, Position> possibleMoves = world.getValidMoves(getPosition());
-        Position newPos = possibleMoves.get(direction);
+        Map<Direction, Position> moves = world.getValidMoves(getPosition());
+        Position newPos = moves.get(direction);
 
         if (newPos != null) {
             setPosition(newPos);

@@ -14,6 +14,7 @@ public abstract class Plant extends Organism {
     @Override
     public void action() {
         boolean canReproduce = RANDOM.nextInt(100) < SOWING_PROBABILITY;
+
         if (canReproduce) {
             reproduce();
         }

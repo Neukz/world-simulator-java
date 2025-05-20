@@ -26,11 +26,14 @@ public class StartController {
 
     @FXML
     private void initialize() {
+        // Allow only positive integers in width and height fields
         UnaryOperator<TextFormatter.Change> integerFilter = change -> {
             String newText = change.getControlNewText();
+
             if (newText.matches("\\d*") && (newText.isEmpty() || Integer.parseInt(newText) > 0)) {
                 return change;
             }
+
             return null;
         };
 
@@ -58,6 +61,7 @@ public class StartController {
     }
 
     private World setupWorld() {
+        // Read configuration
         int width = Integer.parseInt(widthField.getText());
         int height = Integer.parseInt(heightField.getText());
         String worldType = worldTypeChoicebox.getValue();

@@ -97,6 +97,7 @@ public abstract class World implements Serializable {
             // If it's an Animal, check for collision
             if (organism instanceof Animal) {
                 Organism other = getCollidingOrganism(organism);
+
                 if (other != null) {
                     other.collision(organism);
                 }
@@ -114,6 +115,7 @@ public abstract class World implements Serializable {
 
             return isDead;
         });
+
         toAdd.removeIf(o -> !o.isAlive());
         mergeOrganisms();
     }

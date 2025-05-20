@@ -25,10 +25,12 @@ public class Antelope extends Animal {
     @Override
     public void action() {
         Position pos = getPosition();
+
         do {
             Position randomNeighbor = world.getRandomNeighbor(pos, 2);
             setPosition(randomNeighbor);
         } while (pos == getPosition());
+
         setPrevPosition(pos);
     }
 

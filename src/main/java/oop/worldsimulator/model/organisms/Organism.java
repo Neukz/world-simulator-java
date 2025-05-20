@@ -31,10 +31,6 @@ public abstract class Organism implements Comparable<Organism>, Serializable {
         this.world = world;
     }
 
-    public int getAge() {
-        return age;
-    }
-
     public boolean isAlive() {
         return alive;
     }
@@ -86,17 +82,20 @@ public abstract class Organism implements Comparable<Organism>, Serializable {
         if (this.initiative == other.initiative) {
             return Integer.compare(other.age, this.age);    // If initiative is the same, older is higher priority
         }
+
         return Integer.compare(other.initiative, this.initiative);  // Higher initiative is higher priority
     }
 
     protected void reproduce() {
         Position childPos = world.getRandomFreeNeighboringField(this);
+
         if (childPos.equals(Position.INVALID_POSITION)) {
             return; // No space to reproduce
         }
 
         String species = getSpecies();
         Organism child = OrganismFactory.getInstance().create(species, childPos.getX(), childPos.getY(), world);
+
         world.queueOrganism(child);
         world.logEvent(child.getSpecies() + " has been spawned at " + childPos + ".");
     }

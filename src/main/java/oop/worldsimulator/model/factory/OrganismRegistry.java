@@ -4,6 +4,9 @@ import oop.worldsimulator.model.organisms.animals.*;
 import oop.worldsimulator.model.organisms.plants.*;
 
 public final class OrganismRegistry {
+    private OrganismRegistry() {}
+
+
     public static void registerAll() {
         OrganismFactory factory = OrganismFactory.getInstance();
 
@@ -22,7 +25,4 @@ public final class OrganismRegistry {
         factory.registerType(Belladonna.SPECIES, Belladonna::new);
         factory.registerType(SosnowskysHogweed.SPECIES, SosnowskysHogweed::new);
     }
-
-
-    private OrganismRegistry() {}
 }

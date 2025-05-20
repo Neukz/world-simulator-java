@@ -43,6 +43,7 @@ public class Fox extends Animal {
 
     private boolean encounteredStrongerOrganism() {
         Organism other = world.getCollidingOrganism(this);
+
         if (other == null) {
             return false;
         }
