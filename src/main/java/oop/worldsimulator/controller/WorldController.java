@@ -13,8 +13,7 @@ import javafx.scene.text.Font;
 import oop.worldsimulator.model.Position;
 import oop.worldsimulator.model.factory.*;
 import oop.worldsimulator.model.organisms.Organism;
-import oop.worldsimulator.model.organisms.animals.*;
-import oop.worldsimulator.model.organisms.plants.*;
+import oop.worldsimulator.model.organisms.animals.Human;
 import oop.worldsimulator.model.worlds.*;
 
 import java.io.*;
@@ -45,8 +44,13 @@ public class WorldController {
     private Button saveWorldButton;
     @FXML
     private Button loadWorldButton;
-    private World world = new HexagonalWorld(10, 10);
+    private World world;
 
+
+    public void setWorld(World world) {
+        this.world = world;
+        drawWorld();  // Refresh after injection
+    }
 
     @FXML
     private void initialize() {
@@ -57,34 +61,6 @@ public class WorldController {
                 squareWorldGrid.getScene().setOnKeyPressed(this::handleKeyPress);
             }
         });
-
-        OrganismRegistry.registerAll();
-
-//        world.populate(
-//                // Animals
-//                Human.spawn(4, 0, world),
-//                new Wolf(9, 3, world),
-//                new Wolf(6, 1, world),
-//                new Sheep(8, 1, world),
-//                new Sheep(9, 5, world),
-//                new Fox(6, 3, world),
-//                new Fox(8, 9, world),
-//                new Turtle(1, 1, world),
-//                new Turtle(1, 3, world),
-//                new Antelope(0, 8, world),
-//                new Antelope(6, 8, world),
-//
-//                // Plants
-//                new Grass(4, 2, world),
-//                new SowThistle(4, 8, world),
-//                new Guarana(2, 6, world),
-//                new Belladonna(7, 6, world),
-//                new SosnowskysHogweed(5, 5, world)
-//        );
-
-        world.randomSeed();
-
-        drawWorld();
     }
 
     @FXML

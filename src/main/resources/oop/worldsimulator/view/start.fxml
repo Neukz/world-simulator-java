@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="oop.worldsimulator.controller.StartController"
+      alignment="CENTER" spacing="20" style="-fx-padding: 40">
+    <Label text="World Setup" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+    <HBox spacing="10">
+        <Label text="Width:" />
+        <TextField fx:id="widthField" text="10"  />
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Height:" />
+        <TextField fx:id="heightField" text="10" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="World Type:" />
+        <ChoiceBox fx:id="worldTypeChoicebox" value="Square">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Square" />
+                    <String fx:value="Hexagonal" />
+                </FXCollections>
+            </items>
+        </ChoiceBox>
+    </HBox>
+
+    <CheckBox fx:id="randomSeedCheckbox" text="Random seed" selected="true" />
+
+    <Button text="Start Simulation" onAction="#onStartClicked" />
+</VBox>

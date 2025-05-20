@@ -3,11 +3,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
+<?import javafx.scene.shape.Box?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="oop.worldsimulator.controller.WorldController" style="-fx-padding: 10;">
     <HBox spacing="10">
         <!-- World containers -->
-        <GridPane fx:id="squareWorldGrid" />
-        <Pane fx:id="hexagonalWorldPane" />
+        <HBox>
+            <GridPane fx:id="squareWorldGrid" />
+            <Pane fx:id="hexagonalWorldPane" />
+        </HBox>
 
         <!-- Event log -->
         <ScrollPane hbarPolicy="NEVER">
