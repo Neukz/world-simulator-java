@@ -44,7 +44,9 @@ public class WorldController {
     private Button saveWorldButton;
     @FXML
     private Button loadWorldButton;
+
     private World world;
+    private boolean turnInProgress = false;
 
 
     public void setWorld(World world) {
@@ -56,15 +58,17 @@ public class WorldController {
     private void initialize() {
         Platform.runLater(() -> {
             if (world instanceof HexagonalWorld) {
-                hexagonalWorldPane.getScene().setOnKeyPressed(this::handleKeyPress);
+                hexagonalWorldPane.getScene().setOnKeyPressed(this::onKeyPress);
             } else {
-                squareWorldGrid.getScene().setOnKeyPressed(this::handleKeyPress);
+                squareWorldGrid.getScene().setOnKeyPressed(this::onKeyPress);
             }
         });
     }
 
     @FXML
     private void onNextTurnClick() {
+        turnInProgress = true;
+
         // Disable during the turn
         nextTurnButton.setDisable(true);
         saveWorldButton.setDisable(true);
@@ -83,6 +87,8 @@ public class WorldController {
                 nextTurnButton.setDisable(false);
                 saveWorldButton.setDisable(false);
                 loadWorldButton.setDisable(false);
+
+                turnInProgress = false;
             });
         }).start();
     }
@@ -94,10 +100,9 @@ public class WorldController {
 
             oos.writeObject(world);
 
-            world.logEvent("World saved!");
-            printLogs();
-            world.clearEventLog();
+            addAndPrintLogs("World saved!");
         } catch (IOException e) {
+            addAndPrintLogs("Error occurred while saving the world.");
             e.printStackTrace();
         }
     }
@@ -109,17 +114,15 @@ public class WorldController {
 
             world = (World) ois.readObject();
 
-            world.logEvent("World loaded from save!");
-            printLogs();
-            world.clearEventLog();
-
+            addAndPrintLogs("World loaded from save!");
             drawWorld();    // Refresh view
         } catch (IOException | ClassNotFoundException e) {
+            addAndPrintLogs("Error occurred while loading the world.");
             e.printStackTrace();
         }
     }
 
-    private void handleKeyPress(KeyEvent event) {
+    private void onKeyPress(KeyEvent event) {
         Human human = Human.getInstance();
 
         if (human == null) {
@@ -129,9 +132,7 @@ public class WorldController {
         // Use immortality
         if (event.getCode() == KeyCode.SPACE) {
             if (human.activateImmortality()) {
-                world.logEvent("Human has activated Immortality!");
-                printLogs();
-                world.clearEventLog();
+                addAndPrintLogs("Human has activated Immortality!");
             }
 
             return;
@@ -281,7 +282,18 @@ public class WorldController {
         }
     }
 
+    private void addAndPrintLogs(String entry) {
+        world.logEvent(entry);
+        printLogs();
+        world.clearEventLog();
+    }
+
     private void openOrganismSelectionDialog(Position position) {
+        // Prevent adding new organisms mid-turn
+        if (turnInProgress) {
+            return;
+        }
+
         OrganismFactory factory = OrganismFactory.getInstance();
         List<String> types = factory.getRegisteredTypes();
 
@@ -298,7 +310,11 @@ public class WorldController {
                 world.queueOrganism(newOrganism);
                 world.mergeOrganisms();
 
+                addAndPrintLogs(species + " has been added at " + newOrganism.getPosition() + ".");
+
                 drawWorld();    // Refresh view
+            } else {
+                addAndPrintLogs("Cannot create " + species + ".");
             }
         });
     }
