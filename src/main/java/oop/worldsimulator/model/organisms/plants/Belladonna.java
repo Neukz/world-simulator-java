@@ -7,7 +7,7 @@ import oop.worldsimulator.model.organisms.Plant;
 public class Belladonna extends Plant {
     public static final String SPECIES = "Belladonna";
 
-    private static final int STRENGTH = 0;
+    private static final int STRENGTH = 99;
     private static final String SYMBOL = "🫐";
 
 
